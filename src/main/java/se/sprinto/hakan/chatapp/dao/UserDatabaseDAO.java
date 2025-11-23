@@ -1,34 +1,56 @@
 package se.sprinto.hakan.chatapp.dao;
 
 import se.sprinto.hakan.chatapp.DatabaseUtil;
+import se.sprinto.hakan.chatapp.model.Message;
 import se.sprinto.hakan.chatapp.model.User;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class UserDatabaseDAO implements UserDAO{
     DatabaseUtil dbUtil = DatabaseUtil.getInstance();
 
     @Override
     public User login(String username, String password) {
+//        String sql = """
+//                SELECT * FROM user
+//                WHERE username = ? AND password = ?
+//                """;
         String sql = """
-                SELECT * FROM user
+                SELECT 
+                    u.user_id, u.username, u.password,
+                    m.id, m.text, m.timestamp
+                FROM user u
+                LEFT JOIN message m
+                    ON u.user_id = m.user_id
                 WHERE username = ? AND password = ?
                 """;
         try (Connection conn = dbUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, username);
             ps.setString(2, password);
-            System.out.println("Connected to: " + conn.getCatalog());
-
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()){
-                int id = rs.getInt("user_id");
-                String name = rs.getString("username");
-                String pass = rs.getString("password");
-                return new User(id, name, pass);
+            User user = null;
+
+            while (rs.next()){
+                if ( user == null) {
+                    int id = rs.getInt("user_id");
+                    String name = rs.getString("username");
+                    String pass = rs.getString("password");
+                    user = new User(id, name, pass);
+                }
+                int messageId =rs.getInt("id");
+
+                if (!rs.wasNull()){
+                    String text = rs.getString("text");
+                    LocalDateTime timestamp = rs.getTimestamp("timestamp").toLocalDateTime();
+                    Message message = new Message(user.getId(), text, timestamp);
+                    user.addMessage(message);
+                }
             }
+            return user;
 
         } catch (SQLException e) {
             e.printStackTrace();

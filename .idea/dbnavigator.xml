@@ -67,7 +67,6 @@ WHERE TABLE_NAME = 'user';]]></console>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" object-ref="schemas/inl_db/tables/message" />
       <object connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" object-ref="consoles/Connection" />
     </open-files>
   </component>
