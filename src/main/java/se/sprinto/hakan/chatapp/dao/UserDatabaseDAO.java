@@ -18,11 +18,22 @@ public class UserDatabaseDAO implements UserDAO{
             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, username);
             ps.setString(2, password);
+            System.out.println("Connected to: " + conn.getCatalog());
+
 
             ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                int id = rs.getInt("user_id");
+                String name = rs.getString("username");
+                String pass = rs.getString("password");
+                return new User(id, name, pass);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     @Override

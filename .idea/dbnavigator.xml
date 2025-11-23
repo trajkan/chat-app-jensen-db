@@ -42,9 +42,24 @@ CREATE TABLE message (
         REFERENCES user(user_id)
 );
 
-SELECT * FROM message;
+SELECT * FROM inl_db.message;
 
-SELECT * FROM user;]]></console>
+
+
+
+INSERT INTO inl_db.user (username, password)
+VALUES ('Olle', '123Go');
+
+SELECT * FROM inl_db.user;
+
+SELECT DATABASE();
+
+USE inl_db;
+
+
+SELECT TABLE_SCHEMA, TABLE_NAME 
+FROM information_schema.tables 
+WHERE TABLE_NAME = 'user';]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -52,11 +67,17 @@ SELECT * FROM user;]]></console>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
+      <object connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" object-ref="schemas/inl_db/tables/message" />
       <object connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" object-ref="consoles/Connection" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="992cb28e-9d12-45f1-afd1-6114dc3b5add" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" dataset="inl_db.user" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" dataset="inl_db.message" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="992cb28e-9d12-45f1-afd1-6114dc3b5add" dataset="mysql.user" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -94,7 +115,7 @@ SELECT * FROM user;]]></console>
           <session-user value="root@localhost" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />

@@ -14,7 +14,7 @@ public class MessageDatabaseDAO implements MessageDAO{
     public void saveMessage(Message message) {
         String sql = """
                 INSERT INTO message (user_id, text, timestamp)
-                VALUES (?. ?, ?)
+                VALUES (?, ?, ?)
                 """;
         try (Connection conn = dbUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);){
@@ -34,7 +34,7 @@ public class MessageDatabaseDAO implements MessageDAO{
         List<Message> messageList = new ArrayList<>();
         String sql = """
                 SELECT * FROM message
-                WHERE userId = ?
+                WHERE user_id = ?
                 """;
         try (Connection conn = dbUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)){
